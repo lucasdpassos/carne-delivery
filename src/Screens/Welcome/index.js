@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, ImageBackground, Image, Pressable } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, Image, Pressable, TouchableOpacity } from 'react-native';
 import 'react-native-gesture-handler';
 
 
@@ -15,7 +15,12 @@ export default function App() {
       
     <View style={styles.menuHolder}>
       <Image source={require("../../assets/carnedelivery-icon.png")} style={styles.deliveryLogo} />
-      <Pressable styles={styles.pedirAgora}><Text>Peça Já!</Text></Pressable>
+      <TouchableOpacity
+        style={styles.button}
+        
+      >
+        <Text style={{color:red}}>Peça Já!</Text>
+      </TouchableOpacity>
     </View>
 
       <Image source={require("../../assets/carneIcons.png")} style={styles.carneIcons} />
@@ -61,8 +66,19 @@ const styles = StyleSheet.create({
     top:240
   },
   pedirAgora: {
-    backgroundColor: 'azure',
-    height: 70,
+    backgroundColor: 'black',
+    margin:1,
+    height: 190,
     width: 120
+  },
+  button: {
+    alignItems: "center",
+    backgroundColor: "azure",
+    width: 240,
+    height: 60,
+    borderRadius: 55,
+    justifyContent: 'center'
+    
+    
   }
 });
