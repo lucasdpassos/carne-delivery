@@ -37,9 +37,9 @@ export default function App() {
       <Text style={{left:40, margin:20}}>Promoções ---------------------------------------------</Text>
 
       <View style={{display:'flex', flexDirection:'row', justifyContent:'space-around'}}>
-      <Image style={styles.promotionImages} source={require("../../assets/patternpick.png")} />
-      <Image style={styles.promotionImages} source={require("../../assets/patternpick.png")} />
-      <Image style={styles.promotionImages} source={require("../../assets/patternpick.png")} />
+      <Image style={styles.promotionImages} source={require("../../assets/peito.png")} />
+      <Image style={styles.promotionImages} source={require("../../assets/pica.png")} />
+      <Image style={styles.promotionImages} source={require("../../assets/ling.png")} />
   
       </View>
     </View>
