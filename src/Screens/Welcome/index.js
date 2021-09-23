@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, ImageBackground, Image, Pressable, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, Image, Pressable, TouchableOpacity, Linking } from 'react-native';
 import 'react-native-gesture-handler';
 
 
@@ -8,7 +8,14 @@ import 'react-native-gesture-handler';
 const image = { uri: "https://i.ibb.co/1mSQzBQ/Fundo-App.jpg" }
 
 
-export default function App() {
+
+export default function App({ navigation }) {
+
+
+  const redirect = () => {
+    alert('Redirecionar para app de pedidos')
+  };
+
   return (
     <View style={styles.container}>
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
@@ -18,14 +25,14 @@ export default function App() {
       <Text style={{color:'azure', fontWeight:'bold', fontSize:50}}>carnedelivery™</Text>
       <Text style={{color:'azure', fontSize:24, padding:10}}>O maior delivery de Carnes do Rio!</Text>
       <TouchableOpacity
-        style={styles.buttonPedir}
-        
+        style={styles.buttonPedir}    
+        onPress={redirect}    
       >
         <Text style={{color:'red', fontSize:32, fontWeight:'bold'}}>Peça Já!</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.buttonFranqueado}
-        
+        onPress={() => navigation.navigate('Login')}
       >
         <Text style={{color:'azure', fontSize:15}}>Área do Franqueado</Text>
       </TouchableOpacity>
@@ -36,7 +43,7 @@ export default function App() {
       <View style={{backgroundColor:'#e42320', width:400, height:50, position:'absolute', top:760, display:'flex', flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
 
        <Image source={require("../../assets/carnedecasabranco.png")} style={styles.miniIcon} />
-        <Text style={{color:'azure'}}>Ainda não é um franqueado?</Text><Text style={{color:'azure', fontWeight:'bold', marginLeft:5}}>SAIBA MAIS!</Text>
+        <Text style={{color:'azure'}}>Ainda não é um franqueado?</Text><TouchableOpacity  onPress={() => Linking.openURL('https://carnedecasa.com.br/index.php/franquia/')}><Text style={{color:'azure', fontWeight:'bold', marginLeft:5}}>SAIBA MAIS!</Text></TouchableOpacity>
         
 
 
