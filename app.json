@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "cdc",
-    "slug": "cdc",
+    "name": "Carne de Casa",
+    "slug": "cdc-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",
