@@ -31,6 +31,7 @@ export default function App({ navigation }) {
         <View style={{width:250, justifyContent:'center', alignItems:'center', marginLeft:50, height:200}}>
             <TouchableOpacity onPress={() => navigation.navigate('Franchisee')} style={styles.logInButton}><Text style={{color:'azure', fontSize:22}}>Entrar</Text></TouchableOpacity>
             <TouchableOpacity><Text style={{color:'#e42320', marginTop:10}}>Esqueci minha senha</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('Welcome')}><Text style={{color:'#e42320', marginTop:10}}>Voltar</Text></TouchableOpacity>
         </View>
 
         </View>

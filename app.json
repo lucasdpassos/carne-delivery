@@ -4,9 +4,9 @@
     "slug": "cdc-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/carnedecasabranco.png",
+    "icon": "./src/assets/app-icon-square.png",
     "splash": {
-      "image": "./src/assets/carnedecasabranco.png",
+      "image": "./src/assets/app-icon-square.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,9 +21,10 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/carnedecasabranco.png",
+        "foregroundImage": "./src/assets/app-icon-square.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.lucasdpassos.cdcapp"
     },
     "web": {
       "favicon": "./src/assets/favicon.png"

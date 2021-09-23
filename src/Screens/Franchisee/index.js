@@ -7,7 +7,7 @@ import 'react-native-gesture-handler';
 
 
 
-export default function App() {
+export default function App({ navigation }) {
 
   
 
@@ -21,6 +21,7 @@ export default function App() {
        <View style={{flexDirection:'column'}}>
          <Text style={{color:'#e42320', fontSize:18}}>Olá,</Text>
          <Text style={{color:'#e42320', fontSize:18, fontWeight:'bold'}}>João da Silva</Text>
+         <TouchableOpacity  onPress={() => navigation.navigate('Welcome')} ><Text style={{color:'black', fontSize:14}}>Voltar</Text></TouchableOpacity>
        </View>
        </View>
        <View style={{flexDirection:'column', justifyContent:'center', alignItems:'center', marginRight:25}}>
