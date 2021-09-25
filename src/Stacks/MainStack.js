@@ -7,11 +7,12 @@ import Login from '../Screens/Login/index'
 import Franchisee from '../Screens/Franchisee/index'
 
 
+
 const Stack = createStackNavigator()
 
 export default () => (
     <Stack.Navigator 
-    initialRouteName="Welcome"
+    initialRouteName="Login"
     screenOptions ={{
         headerShown: false
     }}

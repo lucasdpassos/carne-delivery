@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, ImageBackground, Image, Pressable, TouchableOpacity, TextInput, CheckBox } from 'react-native';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
-
+import {Cart} from '../../components/Cart/Cart.js'
 
 
 
@@ -14,7 +14,12 @@ export default function App({ navigation }) {
 
   return (
     <View style={styles.container}>
-        <View style={{flexDirection:'column', justifyContent:'space-between'}}>
+
+      <Cart title="opa" />
+      
+
+
+      {/*   <View style={{flexDirection:'column', justifyContent:'space-between'}}>
             <TextInput style={{width:300, top:160, borderBottomColor:'#e42320', borderBottomWidth:3, fontSize:28, fontWeight:'bold', margin:20}} placeholder="Email" placeholderTextColor={'#e42320'}  />
             <TextInput style={{width:300, top:160, borderBottomColor:'#e42320', borderBottomWidth:3, fontSize:28, fontWeight:'bold', margin:20}} placeholder="Senha" placeholderTextColor={'#e42320'}  />
 
@@ -36,7 +41,7 @@ export default function App({ navigation }) {
 
         </View>
 
-        <Image style={styles.loginImage} source={require("../../assets/animals.png")} />
+        <Image style={styles.loginImage} source={require("../../assets/animals.png")} /> */}
 
     </View>
   );
