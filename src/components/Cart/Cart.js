@@ -4,7 +4,8 @@ import {
     Text,
     StyleSheet,
     View,
-    Image
+    Image,
+    Modal
 } from 'react-native';
 import { ProductCard } from '../ProductCard/Product-card';
 
@@ -14,6 +15,9 @@ export function Cart(){
 
     const [newProduct, setNewProduct] = useState('')
     const [myProducts, setMyProducts] = useState([])
+
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalDiaaDia, setModalDiaaDia] = useState(false);
 
     let [buyDiaaDia, setBuyDiaaDia] = useState(false)
 
@@ -100,13 +104,21 @@ export function Cart(){
     }
 
 
+    function openCart() {
+      setModalVisible(true)
+    }
+
+    function openDiaaDia() {
+      setModalDiaaDia(true)
+    }
+
 
     return (
-        <View style={{marginTop:200}}>
-
+        <View style={{}}>
+          <TouchableOpacity onPress={openCart}><Text>Carrinho</Text></TouchableOpacity>
            
             <View style={styles.kitList}>
-        <TouchableOpacity onPress={handleNewProduct} >
+        <TouchableOpacity onPress={openDiaaDia} >
         <View style={styles.kitCard}>
           <Image style={styles.cardImage} source={require("../../assets/dia-a-dia.png")} />
           <View style={{flexDirection:'column', justifyContent:'center'}}>
@@ -147,19 +159,63 @@ export function Cart(){
           <Image style={styles.cardImage} source={require("../../assets/suino.png")} />
           <View style={{flexDirection:'column', justifyContent:'center'}}>
           <Text style={styles.cardTitle}>Kit</Text>
-          <Text style={styles.cardTitle}>{kits[0].nome}</Text>
+          <Text style={styles.cardTitle}>{kits[4].nome}</Text>
           </View>
         </View>
         </TouchableOpacity>
       </View>
          
 
-            {
 
-                myProducts.map(product => 
-        <ProductCard title={product.title} totalPrice={product.totalPrice} totalQuantity={product.totalQuantity} />
-         )
-            }
+
+        {/* MODAL DO CARRINHO */}
+
+    <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+         alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.innerCart}>
+        {
+
+myProducts.map(product => 
+<ProductCard title={product.title} totalPrice={product.totalPrice} totalQuantity={product.totalQuantity} />
+)
+}
+        </View>
+      </Modal>
+
+
+       {/* MODAL DIA-A-DIA */}
+
+
+    <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalDiaaDia}
+        onRequestClose={() => {
+         
+          setModalDiaaDia(!modalDiaaDia);
+        }}
+      >
+        <View style={styles.innerCart}>
+
+            <Text>Este é o modal do kit {kits[0].nome}</Text>
+            <Text>Preço: R$140,00</Text>
+            <Text>Contem: Peças de carne</Text>
+            <TouchableOpacity><Text>Comprar</Text></TouchableOpacity>
+
+        </View>
+      </Modal>
+
+
+
+
+      
 
         </View>
     )

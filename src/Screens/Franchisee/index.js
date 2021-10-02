@@ -10,7 +10,7 @@ import {Cart} from '../../components/Cart/Cart'
 export default function App({ navigation }) {
 
 
-  const [modalVisible, setModalVisible] = useState(true);
+  
   
 
   const [newProduct, setNewProduct] = useState('')
@@ -58,73 +58,13 @@ export default function App({ navigation }) {
        </View>
 
       <Text style={{color:'black', fontSize:14, fontStyle:'italic'}}>Peça já seus kits ---------------------------------------------------------------</Text>
-      <View style={styles.kitList}>
-        <TouchableOpacity>
-        <View style={styles.kitCard}>
-          <Image style={styles.cardImage} source={require("../../assets/dia-a-dia.png")} />
-          <View style={{flexDirection:'column', justifyContent:'center'}}>
-          <Text style={styles.cardTitle}>Kit</Text>
-          <Text style={styles.cardTitle}>{kits[0].nome}</Text>
-          </View>
-        </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-        <View style={styles.kitCard}>
-          <Image style={styles.cardImage} source={require("../../assets/frangao.png")} />
-          <View style={{flexDirection:'column', justifyContent:'center'}}>
-          <Text style={styles.cardTitle}>Kit</Text>
-          <Text style={styles.cardTitle}>{kits[1].nome}</Text>
-          </View>
-        </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-        <View style={styles.kitCard}>
-          <Image style={styles.cardImage} source={require("../../assets/mini-churrasco.png")} />
-          <View style={{flexDirection:'column', justifyContent:'center'}}>
-          <Text style={styles.cardTitle}>Kit Mini</Text>
-          <Text style={styles.cardTitle}>{kits[2].nome}</Text>
-          </View>
-        </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-        <View style={styles.kitCard}>
-          <Image style={styles.cardImage} source={require("../../assets/churrasco.png")} />
-          <View style={{flexDirection:'column', justifyContent:'center'}}>
-          <Text style={styles.cardTitle}>Kit</Text>
-          <Text style={styles.cardTitle}>{kits[3].nome}</Text>
-          </View>
-        </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-        <View style={styles.kitCard}>
-          <Image style={styles.cardImage} source={require("../../assets/suino.png")} />
-          <View style={{flexDirection:'column', justifyContent:'center'}}>
-          <Text style={styles.cardTitle}>Kit</Text>
-          <Text style={styles.cardTitle}>{kits[0].nome}</Text>
-          </View>
-        </View>
-        </TouchableOpacity>
-      </View>
-
+     
+      <Cart title="opa" />
     <Text style={{color:'red', marginTop:15}}>------------------------- Ver mais kits -------------------------</Text>
     <Text style={{color:'black', marginTop:15, fontStyle:'italic'}}>Peça já seus produtos -----------------------------------------------------</Text>
 
 
-    {/* MODAL DO CARRINHO */}
-
-    <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.innerCart}>
-          <Cart title="opa" />
-        </View>
-      </Modal>
+    
 
 
 
