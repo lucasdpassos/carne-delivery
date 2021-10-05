@@ -21,10 +21,11 @@ export function ProductCard({ title, thumb, totalPrice, totalQuantity }){
         
        
         >   
-        <Image style={styles.thumb} source={thumb} />
+       
             <Text style={styles.buttonText}>{title}</Text>
-            <Text style={styles.buttonText}>{totalPrice}</Text>
-            <Text style={styles.buttonText}>{totalQuantity}</Text>
+            
+            <Text style={styles.buttonText}>Quantidade: {totalQuantity}</Text>
+            <Text style={styles.buttonText}>Total:R${totalPrice}</Text>
         </View>
             
        
@@ -36,16 +37,21 @@ export function ProductCard({ title, thumb, totalPrice, totalQuantity }){
 
 const styles = StyleSheet.create({
     button: {
-        backgroundColor: '#A370F7',
+        backgroundColor: '#e42320',
         padding: 15,
         borderRadius: 7,
         alignItems: 'center',
-        marginTop: 20
+        justifyContent:'center',
+        flexDirection:'row',
+        marginTop: 20,
+        width:300,
+        height: 60
     },
     buttonText: {
         color: '#FFF',
-        fontSize: 17,
+        fontSize: 15,
         fontWeight: 'bold',
+        marginLeft: 6
     },
     thumb: {
         width:30,

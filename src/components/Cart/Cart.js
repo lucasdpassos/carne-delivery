@@ -5,8 +5,10 @@ import {
     StyleSheet,
     View,
     Image,
-    Modal
+    Modal,
+    ScrollView
 } from 'react-native';
+import { TextInput } from 'react-native-gesture-handler';
 import { ProductCard } from '../ProductCard/Product-card';
 
 
@@ -16,36 +18,54 @@ export function Cart(){
     const [newProduct, setNewProduct] = useState('')
     const [myProducts, setMyProducts] = useState([])
 
+    const [productQuantity, setProductQuantity] = useState(0)
+    const [requestQuantity, setRequestQuantity] = useState(0)
+
+    /* ----------------------------- MODAIS -------------------------------- */ 
+
     const [modalVisible, setModalVisible] = useState(false);
     const [modalDiaaDia, setModalDiaaDia] = useState(false);
+    const [modalFrangao, setModalFrangao] = useState(false);
+    const [modalMiniChurrasco, setModalMiniChurrasco] = useState(false);
+    const [modalChurrasco, setModalChurrasco] = useState(false);
+    const [modalSuino, setModalSuino] = useState(false);
+
+/* ----------------------------- AÇÕES DE COMPRA -------------------------------- */ 
 
     let [buyDiaaDia, setBuyDiaaDia] = useState(false)
-
     let [buyFrangao, setBuyFrangao] = useState(false)
+    let [buyMiniChurrasco, setBuyMiniChurrasco] = useState(false)
+    let [buyChurrasco, setBuyChurrasco] = useState(false)
+    let [buySuino, setBuySuino] = useState(false)
 
     const [isLoading, setIsLoading] = useState(false)
 
     const kits = [
         {
           id: 1,
-          nome: 'Dia-a-Dia'
+          name: 'Dia-a-Dia',
+          price: 140,
         },
         {
-          nome: 'Frangão'
+          name: 'Frangão',
+          price: 80
         },
         {
-          nome: 'Churrasco'
+          name: 'Churrasco',
+          price: 100,
         },
         {
-          nome: 'Churrasco'
+          name: 'Churrasco',
+          price: 150
         },
         {
-          nome: 'Suíno'
+          name: 'Suíno',
+          price: 200
         },
       ]
 
     
-
+     
     
 
     const delay = ms => new Promise(res => setTimeout(res, ms));
@@ -54,19 +74,50 @@ export function Cart(){
         if(buyDiaaDia == true) {
             const product = {
                 title:'Kit Dia-a-dia',
-                totalPrice: '40',
-                totalQuantity: '300',
+                totalPrice: productQuantity * kits[0].price,
+                            
+                
             }
             setMyProducts(oldState => [...oldState, product]) 
+            
+            var totalQuantity = 2 + 3
+            setRequestQuantity(totalQuantity)
             setBuyDiaaDia(false) 
         }if(buyFrangao == true) {
             const product = {
                 title:'Kit Frangão',
-                totalPrice: '40',
-                totalQuantity: '300',
+                totalPrice: productQuantity * kits[1].price,
+                totalQuantity: productQuantity,
             }
             setMyProducts(oldState => [...oldState, product]) 
             setBuyFrangao(false) 
+         
+        }if(buyMiniChurrasco == true) {
+            const product = {
+                title:'Kit Mini Churrasco',
+                totalPrice: productQuantity * kits[2].price,
+                totalQuantity: productQuantity,
+            }
+            setMyProducts(oldState => [...oldState, product]) 
+            setBuyMiniChurrasco(false) 
+        
+        }if(buyChurrasco == true) {
+            const product = {
+                title:'Kit Churrasco',
+                totalPrice: productQuantity * kits[3].price,
+                totalQuantity: productQuantity,
+            }
+            setMyProducts(oldState => [...oldState, product]) 
+            setBuyChurrasco(false) 
+         
+        }if(buySuino == true) {
+            const product = {
+                title:'Kit Suíno',
+                totalPrice: productQuantity * kits[4].price,
+                totalQuantity: productQuantity,
+            }
+            setMyProducts(oldState => [...oldState, product]) 
+            setBuySuino(false) 
         } 
         else {
             
@@ -74,7 +125,7 @@ export function Cart(){
       }, [isLoading]);
 
 
-    const handleNewProduct = () => {   
+    const handleDiaaDia = () => {   
 
         setIsLoading(true) 
        
@@ -88,12 +139,54 @@ export function Cart(){
           
         }, 3000);
     }
-    const handleNewProduct2 = () => {   
+    const handleFrangao= () => {   
 
         setIsLoading(true)  
         setTimeout(() => {
             
             setBuyFrangao(true)
+          
+            setIsLoading(false)  
+              
+                
+           
+          
+        }, 3000);
+    }
+    const handleMiniChurrasco= () => {   
+
+        setIsLoading(true)  
+        setTimeout(() => {
+            
+            setBuyMiniChurrasco(true)
+          
+            setIsLoading(false)  
+              
+                
+           
+          
+        }, 3000);
+    }
+    const handleChurrasco= () => {   
+
+        setIsLoading(true)  
+        setTimeout(() => {
+            
+            setBuyChurrasco(true)
+          
+            setIsLoading(false)  
+              
+                
+           
+          
+        }, 3000);
+    }
+    const handleSuino= () => {   
+
+        setIsLoading(true)  
+        setTimeout(() => {
+            
+            setBuySuino(true)
           
             setIsLoading(false)  
               
@@ -118,48 +211,48 @@ export function Cart(){
           <TouchableOpacity onPress={openCart}><Text>Carrinho</Text></TouchableOpacity>
            
             <View style={styles.kitList}>
-        <TouchableOpacity onPress={openDiaaDia} >
+        <TouchableOpacity onPress={() => setModalDiaaDia(true)} >
         <View style={styles.kitCard}>
           <Image style={styles.cardImage} source={require("../../assets/dia-a-dia.png")} />
           <View style={{flexDirection:'column', justifyContent:'center'}}>
           <Text style={styles.cardTitle}>Kit</Text>
-          <Text style={styles.cardTitle}>{kits[0].nome}</Text>
+          <Text style={styles.cardTitle}>{kits[0].name}</Text>
           </View>
         </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleNewProduct2} >
+        <TouchableOpacity onPress={() => setModalFrangao(true)} >
         <View style={styles.kitCard}>
           <Image style={styles.cardImage} source={require("../../assets/frangao.png")} />
           <View style={{flexDirection:'column', justifyContent:'center'}}>
           <Text style={styles.cardTitle}>Kit</Text>
-          <Text style={styles.cardTitle}>{kits[1].nome}</Text>
+          <Text style={styles.cardTitle}>{kits[1].name}</Text>
           </View>
         </View>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => setModalMiniChurrasco(true)}>
         <View style={styles.kitCard}>
           <Image style={styles.cardImage} source={require("../../assets/mini-churrasco.png")} />
           <View style={{flexDirection:'column', justifyContent:'center'}}>
           <Text style={styles.cardTitle}>Kit Mini</Text>
-          <Text style={styles.cardTitle}>{kits[2].nome}</Text>
+          <Text style={styles.cardTitle}>{kits[2].name}</Text>
           </View>
         </View>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => setModalChurrasco(true)} >
         <View style={styles.kitCard}>
           <Image style={styles.cardImage} source={require("../../assets/churrasco.png")} />
           <View style={{flexDirection:'column', justifyContent:'center'}}>
           <Text style={styles.cardTitle}>Kit</Text>
-          <Text style={styles.cardTitle}>{kits[3].nome}</Text>
+          <Text style={styles.cardTitle}>{kits[3].name}</Text>
           </View>
         </View>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity  onPress={() => setModalSuino(true)}>
         <View style={styles.kitCard}>
           <Image style={styles.cardImage} source={require("../../assets/suino.png")} />
           <View style={{flexDirection:'column', justifyContent:'center'}}>
           <Text style={styles.cardTitle}>Kit</Text>
-          <Text style={styles.cardTitle}>{kits[4].nome}</Text>
+          <Text style={styles.cardTitle}>{kits[4].name}</Text>
           </View>
         </View>
         </TouchableOpacity>
@@ -180,17 +273,24 @@ export function Cart(){
         }}
       >
         <View style={styles.innerCart}>
+          <ScrollView>
         {
 
 myProducts.map(product => 
 <ProductCard title={product.title} totalPrice={product.totalPrice} totalQuantity={product.totalQuantity} />
 )
 }
+        </ScrollView>
+
+        <View style={{backgroundColor:'grey', width:300, height:200, borderTopLeftRadius:55, borderTopRightRadius:55}}>
+          <Text>{requestQuantity}</Text>
         </View>
+        </View>
+
       </Modal>
 
 
-       {/* MODAL DIA-A-DIA */}
+       {/* ------------------------------------------------------- MODAL DIA-A-DIA --------------------------------------------------------- */}
 
 
     <Modal
@@ -202,12 +302,151 @@ myProducts.map(product =>
           setModalDiaaDia(!modalDiaaDia);
         }}
       >
-        <View style={styles.innerCart}>
+        <View style={styles.kitModal}>
+        <Image style={{width:100, height:100}} source={require("../../assets/dia-a-dia.png")} />
+            <Text style={{fontWeight:'bold', fontSize:20}}>{kits[0].name}</Text>
+            <View style={{flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
+            <Text>Preço:</Text><Text>R${kits[0].price}</Text>
+            </View>
+            <TouchableOpacity onPress={() => alert('Em construção')} style={{backgroundColor:'red', borderRadius:55, width:120, alignItems:'center', justifyContent:'center'}}><Text style={{fontSize:18, color:'azure'}}>🥩 Conteúdo</Text></TouchableOpacity>
 
-            <Text>Este é o modal do kit {kits[0].nome}</Text>
-            <Text>Preço: R$140,00</Text>
-            <Text>Contem: Peças de carne</Text>
-            <TouchableOpacity><Text>Comprar</Text></TouchableOpacity>
+            <View style={{flexDirection:'column', justifyContent:'center', alignItems:'center', marginTop:60}}>
+              <View>
+                <TextInput  onChangeText={setProductQuantity}
+        value={productQuantity} keyboardType='numeric' style={{width:50, height: 40, borderWidth:2, borderColor:'black', justifyContent:'center', alignItems:'center', fontSize:18, textAlign:'center'}} />
+              </View>
+            <TouchableOpacity onPress={handleDiaaDia} style={{marginTop:10}}><Text style={{fontSize:18, fontWeight:'bold'}}>Comprar</Text></TouchableOpacity>
+            </View>
+
+        </View>
+      </Modal>
+
+
+
+       {/* ------------------------------------------------------- MODAL FRANGÃO --------------------------------------------------------- */}
+
+
+    <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalFrangao}
+        onRequestClose={() => {
+         
+          setModalFrangao(!modalFrangao);
+        }}
+      >
+        <View style={styles.kitModal}>
+        <Image style={{width:100, height:100}} source={require("../../assets/frangao.png")} />
+            <Text style={{fontWeight:'bold', fontSize:20}}>{kits[1].name}</Text>
+            <View style={{flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
+            <Text>Preço:</Text><Text>R${kits[1].price}</Text>
+            </View>
+            <TouchableOpacity onPress={() => alert('Em construção')} style={{backgroundColor:'red', borderRadius:55, width:120, alignItems:'center', justifyContent:'center'}}><Text style={{fontSize:18, color:'azure'}}>🥩 Conteúdo</Text></TouchableOpacity>
+
+            <View style={{flexDirection:'column', justifyContent:'center', alignItems:'center', marginTop:60}}>
+              <View>
+                <TextInput  onChangeText={setProductQuantity}
+        value={productQuantity} keyboardType='numeric' style={{width:50, height: 40, borderWidth:2, borderColor:'black', justifyContent:'center', alignItems:'center', fontSize:18, textAlign:'center'}} />
+              </View>
+            <TouchableOpacity onPress={handleFrangao} style={{marginTop:10}}><Text style={{fontSize:18, fontWeight:'bold'}}>Comprar</Text></TouchableOpacity>
+            </View>
+
+        </View>
+      </Modal>
+
+
+       {/* ------------------------------------------------------- MODAL MINI CHURRASCO --------------------------------------------------------- */}
+
+
+    <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalMiniChurrasco}
+        onRequestClose={() => {
+         
+          setModalMiniChurrasco(!modalMiniChurrasco);
+        }}
+      >
+        <View style={styles.kitModal}>
+        <Image style={{width:100, height:100}} source={require("../../assets/mini-churrasco.png")} />
+            <Text style={{fontWeight:'bold', fontSize:20}}>Mini {kits[2].name}</Text>
+            <View style={{flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
+            <Text>Preço:</Text><Text>R${kits[2].price}</Text>
+            </View>
+            <TouchableOpacity onPress={() => alert('Em construção')} style={{backgroundColor:'red', borderRadius:55, width:120, alignItems:'center', justifyContent:'center'}}><Text style={{fontSize:18, color:'azure'}}>🥩 Conteúdo</Text></TouchableOpacity>
+
+            <View style={{flexDirection:'column', justifyContent:'center', alignItems:'center', marginTop:60}}>
+              <View>
+                <TextInput  onChangeText={setProductQuantity}
+        value={productQuantity} keyboardType='numeric' style={{width:50, height: 40, borderWidth:2, borderColor:'black', justifyContent:'center', alignItems:'center', fontSize:18, textAlign:'center'}} />
+              </View>
+            <TouchableOpacity onPress={handleMiniChurrasco} style={{marginTop:10}}><Text style={{fontSize:18, fontWeight:'bold'}}>Comprar</Text></TouchableOpacity>
+            </View>
+
+        </View>
+      </Modal>
+
+
+
+       {/* ------------------------------------------------------- MODAL CHURRASCO --------------------------------------------------------- */}
+
+
+    <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalChurrasco}
+        onRequestClose={() => {
+         
+          setModalChurrasco(!modalChurrasco);
+        }}
+      >
+        <View style={styles.kitModal}>
+        <Image style={{width:100, height:100}} source={require("../../assets/churrasco.png")} />
+            <Text style={{fontWeight:'bold', fontSize:20}}>{kits[3].name}</Text>
+            <View style={{flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
+            <Text>Preço:</Text><Text>R${kits[3].price}</Text>
+            </View>
+            <TouchableOpacity onPress={() => alert('Em construção')} style={{backgroundColor:'red', borderRadius:55, width:120, alignItems:'center', justifyContent:'center'}}><Text style={{fontSize:18, color:'azure'}}>🥩 Conteúdo</Text></TouchableOpacity>
+
+            <View style={{flexDirection:'column', justifyContent:'center', alignItems:'center', marginTop:60}}>
+              <View>
+                <TextInput  onChangeText={setProductQuantity}
+        value={productQuantity} keyboardType='numeric' style={{width:50, height: 40, borderWidth:2, borderColor:'black', justifyContent:'center', alignItems:'center', fontSize:18, textAlign:'center'}} />
+              </View>
+            <TouchableOpacity onPress={handleChurrasco} style={{marginTop:10}}><Text style={{fontSize:18, fontWeight:'bold'}}>Comprar</Text></TouchableOpacity>
+            </View>
+
+        </View>
+      </Modal>
+
+
+       {/* ------------------------------------------------------- MODAL SUINO --------------------------------------------------------- */}
+
+
+    <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalSuino}
+        onRequestClose={() => {
+         
+          setModalSuino(!modalSuino);
+        }}
+      >
+        <View style={styles.kitModal}>
+        <Image style={{width:100, height:100}} source={require("../../assets/suino.png")} />
+            <Text style={{fontWeight:'bold', fontSize:20}}>{kits[4].name}</Text>
+            <View style={{flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
+            <Text>Preço:</Text><Text>R${kits[4].price}</Text>
+            </View>
+            <TouchableOpacity onPress={() => alert('Em construção')} style={{backgroundColor:'red', borderRadius:55, width:120, alignItems:'center', justifyContent:'center'}}><Text style={{fontSize:18, color:'azure'}}>🥩 Conteúdo</Text></TouchableOpacity>
+
+            <View style={{flexDirection:'column', justifyContent:'center', alignItems:'center', marginTop:60}}>
+              <View>
+                <TextInput  onChangeText={setProductQuantity}
+        value={productQuantity} keyboardType='numeric' style={{width:50, height: 40, borderWidth:2, borderColor:'black', justifyContent:'center', alignItems:'center', fontSize:18, textAlign:'center'}} />
+              </View>
+            <TouchableOpacity onPress={handleSuino} style={{marginTop:10}}><Text style={{fontSize:18, fontWeight:'bold'}}>Comprar</Text></TouchableOpacity>
+            </View>
 
         </View>
       </Modal>
@@ -285,6 +524,16 @@ const styles = StyleSheet.create({
       backgroundColor: 'azure',
       justifyContent: 'center',
       alignItems: 'center'
+    },
+    kitModal: {
+      width: '70%',
+      height: '70%',
+      backgroundColor: 'azure',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginLeft: 60,
+      marginTop: 200,
+      borderRadius: 55
     }
    
 });
