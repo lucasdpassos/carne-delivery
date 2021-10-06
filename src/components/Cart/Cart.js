@@ -19,7 +19,8 @@ export function Cart(){
     const [myProducts, setMyProducts] = useState([])
 
     const [productQuantity, setProductQuantity] = useState(0)
-    const [requestQuantity, setRequestQuantity] = useState(0)
+    const [requestQuantity, setRequestQuantity] = useState([])
+    const [totalQuantity, setTotalQuantity] = useState(0)
 
     /* ----------------------------- MODAIS -------------------------------- */ 
 
@@ -75,13 +76,13 @@ export function Cart(){
             const product = {
                 title:'Kit Dia-a-dia',
                 totalPrice: productQuantity * kits[0].price,
+                totalQuantity: productQuantity
                             
                 
             }
-            setMyProducts(oldState => [...oldState, product]) 
-            
-            var totalQuantity = 2 + 3
-            setRequestQuantity(totalQuantity)
+            setMyProducts(oldState => [...oldState, product])            
+            setRequestQuantity(oldState => [...oldState, Number(productQuantity)])             
+            setTotalQuantity(requestQuantity.reduce((a, b) => a + b, 0))           
             setBuyDiaaDia(false) 
         }if(buyFrangao == true) {
             const product = {
