@@ -13,7 +13,7 @@ export default function App({ navigation }) {
 
 
   const redirect = () => {
-    alert('Redirecionar para app de pedidos')
+    Linking.openURL('carnedecasa.jotaja.com.br')
   };
 
   return (
@@ -23,10 +23,10 @@ export default function App({ navigation }) {
     <View style={styles.menuHolder}>
       <Image source={require("../../assets/carnedelivery-icon.png")} style={styles.deliveryLogo} />
       <Text style={{color:'azure', fontWeight:'bold', fontSize:50}}>carnedelivery™</Text>
-      <Text style={{color:'azure', fontSize:24, padding:10}}>O maior delivery de Carnes do Rio!</Text>
+      <Text style={{color:'azure', fontSize:24, padding:10}}>Qualidade, preço e sabor, aqui tem!</Text>
       <TouchableOpacity
         style={styles.buttonPedir}    
-        onPress={redirect}    
+        onPress={() => Linking.openURL('https://carnedecasa.jotaja.com.br')}   
       >
         <Text style={{color:'red', fontSize:32, fontWeight:'bold'}}>Peça Já!</Text>
       </TouchableOpacity>

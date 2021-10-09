@@ -6,21 +6,32 @@ import {
     View,
     Image,
     Modal,
-    ScrollView
+    ScrollView,
+    Button,
+    DevSettings
+    
+    
 } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { ProductCard } from '../ProductCard/Product-card';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Picker} from '@react-native-picker/picker';
+import 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
 
 
-
-export function Cart(){
-
+export function Cart({ navigation }){
+     var arraySum = require('array-sum');
     const [newProduct, setNewProduct] = useState('')
     const [myProducts, setMyProducts] = useState([])
 
     const [productQuantity, setProductQuantity] = useState(0)
-    const [requestQuantity, setRequestQuantity] = useState([])
+    const [requestQuantity, setRequestQuantity] = useState(0)
     const [totalQuantity, setTotalQuantity] = useState(0)
+    const [megaQuantity, setMegaQuantity] = useState([])
+    const [quantityStorage, setQuantityStorage] = useState([])
+    const [megaPrice, setMegaPrice] = useState([])
+    const [priceStorage, setPriceStorage] = useState([])
 
     /* ----------------------------- MODAIS -------------------------------- */ 
 
@@ -30,6 +41,9 @@ export function Cart(){
     const [modalMiniChurrasco, setModalMiniChurrasco] = useState(false);
     const [modalChurrasco, setModalChurrasco] = useState(false);
     const [modalSuino, setModalSuino] = useState(false);
+    const [modalEntrega, setModalEntrega] = useState(false);
+    const [modalResumo, setModalResumo] = useState(false);
+    const [modalFinal, setModalFinal] = useState(false);
 
 /* ----------------------------- AÇÕES DE COMPRA -------------------------------- */ 
 
@@ -40,6 +54,38 @@ export function Cart(){
     let [buySuino, setBuySuino] = useState(false)
 
     const [isLoading, setIsLoading] = useState(false)
+
+
+  /* ----------------------------- AÇÕES DE ENTREGA -------------------------------- */ 
+  
+  const [selectedDeliveryMode, setSelectedDeliveryMode] = useState();
+  const [selectedPaymentMode, setSelectedPaymentMode] = useState();
+  const [selectedAddressMode, setSelectedAddressMode] = useState();
+  const [editableAddress, setEditableAddress] = useState(false)
+  const [isAddress, setIsAddress] = useState(false)
+  const [isMyAddress, setIsMyAddress] = useState(false)
+  const [isNewAddress, setIsNewAddress] = useState(false)
+
+  let deliveryMode = selectedDeliveryMode
+  let paymentMode = selectedPaymentMode
+  let addressMode = selectedAddressMode  
+
+
+  function clearAll() {
+    setProductQuantity(0),
+    setRequestQuantity(0),
+    setMyProducts([]),
+    setNewProduct(''),
+    setTotalQuantity(0),
+    setMegaQuantity([]),
+    setQuantityStorage(0),
+    setMegaPrice([]),
+    
+    setModalEntrega(false)
+    setModalResumo(false)
+    setModalVisible(false)
+    setModalFinal(false)
+  }
 
     const kits = [
         {
@@ -71,19 +117,42 @@ export function Cart(){
 
     const delay = ms => new Promise(res => setTimeout(res, ms));
 
-    useEffect(() => {        
+
+    
+
+    useEffect(() => {    
+      let deliveryMode = selectedDeliveryMode
+      let paymentMode = selectedPaymentMode
+      let addressMode = selectedAddressMode      
         if(buyDiaaDia == true) {
             const product = {
                 title:'Kit Dia-a-dia',
                 totalPrice: productQuantity * kits[0].price,
-                totalQuantity: productQuantity
-                            
+                totalQuantity: Number(productQuantity),                               
+                totalQuantity2: Number(productQuantity),
+                
                 
             }
-            setMyProducts(oldState => [...oldState, product])            
-            setRequestQuantity(oldState => [...oldState, Number(productQuantity)])             
-            setTotalQuantity(requestQuantity.reduce((a, b) => a + b, 0))           
-            setBuyDiaaDia(false) 
+                                             
+                       
+              setMyProducts(oldState => [...oldState, product])  
+
+              setMegaQuantity(oldState => [...oldState, product.totalQuantity]) 
+              setQuantityStorage(arraySum(megaQuantity))
+
+              setMegaPrice(oldState => [...oldState, product.totalPrice]) 
+              setQuantityStorage(arraySum(megaPrice))  
+
+                
+
+                   
+      
+          setBuyDiaaDia(false)                        
+         
+     
+           
+
+           
         }if(buyFrangao == true) {
             const product = {
                 title:'Kit Frangão',
@@ -91,6 +160,13 @@ export function Cart(){
                 totalQuantity: productQuantity,
             }
             setMyProducts(oldState => [...oldState, product]) 
+
+            setMegaQuantity(oldState => [...oldState, product.totalQuantity]) 
+              setQuantityStorage(arraySum(megaQuantity))  
+
+              setMegaPrice(oldState => [...oldState, product.totalPrice]) 
+              setQuantityStorage(arraySum(megaPrice))  
+
             setBuyFrangao(false) 
          
         }if(buyMiniChurrasco == true) {
@@ -100,6 +176,13 @@ export function Cart(){
                 totalQuantity: productQuantity,
             }
             setMyProducts(oldState => [...oldState, product]) 
+
+            setMegaQuantity(oldState => [...oldState, product.totalQuantity]) 
+              setQuantityStorage(arraySum(megaQuantity)) 
+              
+              setMegaPrice(oldState => [...oldState, product.totalPrice]) 
+              setQuantityStorage(arraySum(megaPrice))  
+              
             setBuyMiniChurrasco(false) 
         
         }if(buyChurrasco == true) {
@@ -109,6 +192,13 @@ export function Cart(){
                 totalQuantity: productQuantity,
             }
             setMyProducts(oldState => [...oldState, product]) 
+
+            setMegaQuantity(oldState => [...oldState, product.totalQuantity]) 
+              setQuantityStorage(arraySum(megaQuantity))  
+
+              setMegaPrice(oldState => [...oldState, product.totalPrice]) 
+              setQuantityStorage(arraySum(megaPrice))  
+
             setBuyChurrasco(false) 
          
         }if(buySuino == true) {
@@ -117,14 +207,30 @@ export function Cart(){
                 totalPrice: productQuantity * kits[4].price,
                 totalQuantity: productQuantity,
             }
-            setMyProducts(oldState => [...oldState, product]) 
+            setMyProducts(oldState => [ ...oldState, product]) 
+
+            setMegaQuantity(oldState => [...oldState, product.totalQuantity]) 
+              setQuantityStorage(arraySum(megaQuantity))  
+
+              setMegaPrice(oldState => [...oldState, product.totalPrice]) 
+              setQuantityStorage(arraySum(megaPrice))  
+
             setBuySuino(false) 
         } 
         else {
             
         }
+
+        if(isMyAddress == true) {
+          setSelectedAddressMode('Meu Endereço')
+        }
+        if(isNewAddress == true) {
+          setSelectedAddressMode('Novo Endereço')
+        }
+
       }, [isLoading]);
 
+      
 
     const handleDiaaDia = () => {   
 
@@ -134,11 +240,15 @@ export function Cart(){
            
             setBuyDiaaDia(true)
             setIsLoading(false)  
-              
+            
+            
+            
                 
            
           
         }, 3000);
+        alert('Produto enviado para o carrinho')
+        setModalDiaaDia(false)
     }
     const handleFrangao= () => {   
 
@@ -153,6 +263,8 @@ export function Cart(){
            
           
         }, 3000);
+        alert('Produto enviado para o carrinho')
+        setModalFrangao(false)
     }
     const handleMiniChurrasco= () => {   
 
@@ -167,6 +279,8 @@ export function Cart(){
            
           
         }, 3000);
+        alert('Produto enviado para o carrinho')
+        setModalMiniChurrasco(false)
     }
     const handleChurrasco= () => {   
 
@@ -181,6 +295,8 @@ export function Cart(){
            
           
         }, 3000);
+        alert('Produto enviado para o carrinho')
+        setModalChurrasco(false)
     }
     const handleSuino= () => {   
 
@@ -195,6 +311,8 @@ export function Cart(){
            
           
         }, 3000);
+        alert('Produto enviado para o carrinho')
+        setModalSuino(false)
     }
 
 
@@ -206,10 +324,12 @@ export function Cart(){
       setModalDiaaDia(true)
     }
 
+ 
+
 
     return (
         <View style={{}}>
-          <TouchableOpacity onPress={openCart}><Text>Carrinho</Text></TouchableOpacity>
+          <TouchableOpacity style={{marginBottom:60, left:'31%', backgroundColor:'#e42320', width:60, height:60, borderRadius:90, justifyContent:'center', alignItems:'center'}} onPress={openCart}><Text style={{color:'azure', fontSize:30, fontWeight:'bold', textAlign:'center'}}>🛒</Text></TouchableOpacity>
            
             <View style={styles.kitList}>
         <TouchableOpacity onPress={() => setModalDiaaDia(true)} >
@@ -268,8 +388,7 @@ export function Cart(){
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => {
-         alert("Modal has been closed.");
+        onRequestClose={() => {         
           setModalVisible(!modalVisible);
         }}
       >
@@ -283,8 +402,11 @@ myProducts.map(product =>
 }
         </ScrollView>
 
-        <View style={{backgroundColor:'grey', width:300, height:200, borderTopLeftRadius:55, borderTopRightRadius:55}}>
-          <Text>{requestQuantity}</Text>
+        <View style={{backgroundColor:'grey', width:300, height:200, borderTopLeftRadius:55, borderTopRightRadius:55, justifyContent:'center', flexDirection:'column', alignItems:'center'}}>
+          <Text style={{color:'azure', fontSize:16}}>Total de itens: {arraySum(megaQuantity)}</Text>
+          <Text style={{color:'azure', fontSize:16}} >Valor total: R${arraySum(megaPrice)}</Text>
+          <TouchableOpacity onPress={() => setModalEntrega(!modalEntrega)} style={{backgroundColor:'#e42320', width:200, height:50, justifyContent:'center', alignItems:'center', borderRadius:55, marginTop:20}}><Text style={{color:'azure', fontSize:18}}>Finalizar Pedido</Text></TouchableOpacity>
+          <TouchableOpacity onPress={() => setModalVisible(!modalVisible)} style={{backgroundColor:'#e42320', width:150, height:40, justifyContent:'center', alignItems:'center', borderRadius:55, marginTop:20}}><Text style={{color:'azure', fontSize:13}}>Continuar Comprando</Text></TouchableOpacity>
         </View>
         </View>
 
@@ -454,6 +576,130 @@ myProducts.map(product =>
 
 
 
+       {/* ------------------------------------------------------- MODAL ENTREGA --------------------------------------------------------- */}
+
+
+    <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalEntrega}
+        onRequestClose={() => {
+         
+          setModalSuino(!modalEntrega);
+        }}
+      >
+        <View style={styles.deliveryModal}>
+
+          <Text style={{textAlign:'center', fontSize:16, fontWeight:'bold'}}>Ótimo, vamos finalizar o seu pedido, primeiro, você prefere retirar seu pedido na loja ou que ele seja entregue (frete)?</Text>
+      
+          <Picker
+          style={{width:200, height:50, marginTop:6}}
+  selectedValue={selectedDeliveryMode}
+  onValueChange={(itemValue, itemIndex) =>
+    setSelectedDeliveryMode(itemValue)
+  }>
+  <Picker.Item color='red' style={{fontSize:18}}  label="Selecionar" value="Retirada" />
+  <Picker.Item color='red' style={{fontSize:18}}  label="Retirada" value="Retirada" /> 
+  <Picker.Item color='red' style={{fontSize:18}} label="Frete" value="Frete" />
+</Picker>
+
+          <Text style={{textAlign:'center', fontSize:16, fontWeight:'bold'}}>Qual será o método de pagamento?</Text>
+      
+          <Picker
+          style={{width:200, height:50, marginTop:6}}
+  selectedValue={selectedPaymentMode}
+  onValueChange={(itemValue, itemIndex) =>
+    setSelectedPaymentMode(itemValue)
+  }>
+  <Picker.Item color='red' style={{fontSize:18}}  label="Selecionar" value="Boleto" />
+  <Picker.Item color='red' style={{fontSize:18}}  label="Boleto" value="Boleto" />
+  <Picker.Item color='red' style={{fontSize:18}} label="Débito" value="Débito" />
+  <Picker.Item color='red' style={{fontSize:18}} label="Crédito" value="Crédito" />
+  <Picker.Item color='red' style={{fontSize:18}} label="Pix" value="Pix" />
+  <Picker.Item color='red' style={{fontSize:18}} label="Dinheiro" value="Dinheiro" />
+</Picker>
+
+          <Text style={{textAlign:'center', fontSize:16, fontWeight:'bold'}}>Qual será o endereço de entrega?</Text>
+      
+         
+
+  <View style={{flexDirection:'row', justifyContent:'center', alignItems:'center', marginTop:20}}>
+    <TouchableOpacity onPress={() => {setIsMyAddress(true);setIsNewAddress(false);setSelectedAddressMode('Meu Endereço')}} disabled={isMyAddress}  style={[styles.disabled, isNewAddress ? styles.newAddress : {}]} ><Text style={{color:'red', textAlign:'center', padding:6}}>Meu Endereço</Text></TouchableOpacity>
+    <TouchableOpacity onPress={() => {setIsNewAddress(true);setIsMyAddress(false);setSelectedAddressMode('Novo Endereço')}} disabled={isNewAddress}  style={[styles.disabled, isMyAddress ? styles.newAddress : {}]} ><Text style={{color:'red', textAlign:'center', padding:6}}>Novo Endereço</Text></TouchableOpacity>
+</View>
+
+{isNewAddress ? <View style={{marginTop:50, flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
+  <Text style={{marginTop:6}}>Endereço de entrega:</Text>
+  <TextInput style={{borderWidth:1, borderColor:'black', fontSize:14, width:300, height:40}} placeholder="Novo Endereço" />
+  <Text style={{marginTop:6}}>Número:</Text>
+  <TextInput style={{borderWidth:1, borderColor:'black', fontSize:14, width:120, height:40, marginTop:10}} placeholder="Novo Número" />
+  <Text style={{marginTop:6}}>Complemento:</Text>
+  <TextInput style={{borderWidth:1, borderColor:'black', fontSize:14, width:150, height:40, marginTop:10}} placeholder="Novo Complemento" />
+  </View> : null}
+
+  <TouchableOpacity onPress={() => setModalResumo(true)} style={{backgroundColor:"#e42320", width:200, height:40, justifyContent:'center', alignItems:'center', borderRadius:55, marginTop:100}}><Text style={{color:'azure', fontSize:20}}>Fechar Pedido</Text></TouchableOpacity>
+
+        </View>
+      </Modal>
+
+
+       {/* ------------------------------------------------------- MODAL RESUMO DO PEDIDO --------------------------------------------------------- */}
+
+
+    <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalResumo}
+        onRequestClose={() => {
+         
+          setModalSuino(!modalResumo);
+        }}
+      >
+        <View style={styles.deliveryModal}>
+
+        <Text style={{fontSize:21, fontWeight:'bold'}}>Aqui está o resumo do seu pedido:</Text>
+        <View style={{borderWidth:2, borderColor:'#e42320', width:200, height:350, justifyContent:'center', alignItems:'center', marginTop:20}}>
+          <Text style={{textAlign:'center'}}>Modo de entrega: {deliveryMode}</Text>
+          <Text>Modo de pagamento: {paymentMode}</Text>
+          <Text style={{textAlign:'center'}} >Endereço de entrega: {addressMode}</Text>
+
+          <View style={{marginTop:40, justifyContent:'center', alignItems:'center'}}>
+          <Text>Quantidade de itens: {arraySum(megaQuantity)}</Text>
+          <Text>Valor Final: R${arraySum(megaPrice)}</Text>
+          </View>
+        </View>
+
+        <TouchableOpacity onPress={() => setModalFinal(true)} style={{backgroundColor:"#e42320", width:200, height:40, justifyContent:'center', alignItems:'center', borderRadius:55, marginTop:100}}><Text style={{color:'azure', fontSize:20}}>Finalizar Pedido</Text></TouchableOpacity>
+        <TouchableOpacity onPress={() => {setModalResumo(false);setModalEntrega(false)}} style={{backgroundColor:"#e42320", width:130, height:20, justifyContent:'center', alignItems:'center', borderRadius:55, marginTop:20}}><Text style={{color:'azure', fontSize:12}}>Voltar Pra Loja</Text></TouchableOpacity>
+
+        </View>
+      </Modal>
+
+
+
+       {/* ------------------------------------------------------- MODAL PEDIDO EFETUADO --------------------------------------------------------- */}
+
+
+    <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalFinal}
+        onRequestClose={() => {
+         
+          setModalSuino(!modalFinal);
+        }}
+      >
+        <View style={styles.finishRequest}>
+
+        <Image style={{width:450, height:450}} source={require("../../assets/finalGreet.png")} />
+
+        <TouchableOpacity  onPress={clearAll}  style={{width:70, height: 70, backgroundColor:'#e42320', borderRadius:90, justifyContent:'center', alignItems:'center'}}><Text style={{color:'azure', fontWeight:'bold', fontSize:30}}>✔</Text></TouchableOpacity>
+       
+        </View>
+      </Modal>
+
+
+
 
       
 
@@ -535,6 +781,41 @@ const styles = StyleSheet.create({
       marginLeft: 60,
       marginTop: 200,
       borderRadius: 55
+    },
+    deliveryModal: {
+      width: '100%',
+      height: '100%',
+      backgroundColor: 'azure',
+      justifyContent: 'center',
+      alignItems: 'center'      
+    },
+    hidden: {
+      display: 'none'
+    },
+    newAddress: {      
+      borderWidth:2,
+      borderColor: 'black',
+      width:100, 
+      height:60,
+      marginLeft:10,
+      justifyContent:'center',
+      alignItems:'center'
+    },
+    disabled: {      
+      borderWidth:10,
+      borderColor: 'black',
+      width:100, 
+      height:60,
+      marginLeft:10,
+      justifyContent:'center',
+      alignItems:'center'
+    },
+    finishRequest: {
+      width: '100%',
+      height: '100%',
+      backgroundColor: 'azure',
+      justifyContent: 'center',
+      alignItems: 'center'   
     }
    
 });

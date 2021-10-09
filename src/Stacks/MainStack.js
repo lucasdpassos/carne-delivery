@@ -12,7 +12,7 @@ const Stack = createStackNavigator()
 
 export default () => (
     <Stack.Navigator 
-    initialRouteName="Franchisee"
+    initialRouteName="Welcome"
     screenOptions ={{
         headerShown: false
     }}

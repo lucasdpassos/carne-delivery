@@ -53,13 +53,13 @@ export default function App({ navigation }) {
        </View>
        <View style={{flexDirection:'column', justifyContent:'center', alignItems:'center', marginRight:25}}>
         <Text style={{color:'#e42320'}}>Precisando de ajuda?</Text>
-        <Text style={{color:'#e42320', fontWeight:'bold', fontSize:16}}>📞 Fale Conosco</Text>
+        <TouchableOpacity><Text style={{color:'#e42320', fontWeight:'bold', fontSize:16}}>📞 Fale Conosco</Text></TouchableOpacity>
        </View>
        </View>
 
       <Text style={{color:'black', fontSize:14, fontStyle:'italic'}}>Peça já seus kits ---------------------------------------------------------------</Text>
      
-      <Cart title="opa" />
+      <Cart navigation={navigation} title="opa" />
     <Text style={{color:'red', marginTop:15}}>------------------------- Ver mais kits -------------------------</Text>
     <Text style={{color:'black', marginTop:15, fontStyle:'italic'}}>Peça já seus produtos -----------------------------------------------------</Text>
 
